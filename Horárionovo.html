@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horário Escolar - Sistema Completo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .space {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .space-title {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background-color: white;
+        }
+        .summary {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .summary-title {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .summary-table th {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .day-header {
+            background-color: #34495e;
+            color: white;
+        }
+        .time-header {
+            background-color: #7f8c8d;
+            color: white;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .empty-option {
+            color: #999;
+        }
+        .daily-view {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .daily-view-title {
+            background-color: #e67e22;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .view-options {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .view-options button.active {
+            background-color: #16a085;
+        }
+        .hidden {
+            display: none;
+        }
+        .subject-cell {
+            font-size: 0.9em;
+            line-height: 1.3;
+        }
+        .import-export {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .import-export-title {
+            background-color: #9b59b6;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        #import-file {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Horário Escolar - Sistema Completo</h1>
+    
+    <div class="container">
+        <div class="space">
+            <div class="space-title">Biblioteca</div>
+            <table id="library">
+                <thead>
+                    <tr>
+                        <th class="time-header">Horário</th>
+                        <th class="day-header">Segunda</th>
+                        <th class="day-header">Terça</th>
+                        <th class="day-header">Quarta</th>
+                        <th class="day-header">Quinta</th>
+                        <th class="day-header">Sexta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-header">07:30 - 08:20</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="1"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="1"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="1"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="1"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="1"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">08:20 - 09:10</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="2"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="2"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="2"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="2"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="2"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">09:10 - 10:00</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="3"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="3"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="3"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="3"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="3"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">10:15 - 11:05</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="4"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="4"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="4"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="4"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="4"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:05 - 11:55</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="5"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="5"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="5"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="5"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="5"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:55 - 12:45</td>
+                        <td><select class="subject" data-space="library" data-day="seg" data-time="6"></select></td>
+                        <td><select class="subject" data-space="library" data-day="ter" data-time="6"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qua" data-time="6"></select></td>
+                        <td><select class="subject" data-space="library" data-day="qui" data-time="6"></select></td>
+                        <td><select class="subject" data-space="library" data-day="sex" data-time="6"></select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="space">
+            <div class="space-title">Laboratório de Informática</div>
+            <table id="lab">
+                <thead>
+                    <tr>
+                        <th class="time-header">Horário</th>
+                        <th class="day-header">Segunda</th>
+                        <th class="day-header">Terça</th>
+                        <th class="day-header">Quarta</th>
+                        <th class="day-header">Quinta</th>
+                        <th class="day-header">Sexta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-header">07:30 - 08:20</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="1"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="1"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="1"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="1"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="1"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">08:20 - 09:10</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="2"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="2"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="2"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="2"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="2"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">09:10 - 10:00</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="3"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="3"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="3"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="3"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="3"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">10:15 - 11:05</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="4"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="4"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="4"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="4"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="4"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:05 - 11:55</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="5"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="5"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="5"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="5"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="5"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:55 - 12:45</td>
+                        <td><select class="subject" data-space="lab" data-day="seg" data-time="6"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="ter" data-time="6"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qua" data-time="6"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="qui" data-time="6"></select></td>
+                        <td><select class="subject" data-space="lab" data-day="sex" data-time="6"></select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="space">
+            <div class="space-title">Chromebook</div>
+            <table id="chromebook">
+                <thead>
+                    <tr>
+                        <th class="time-header">Horário</th>
+                        <th class="day-header">Segunda</th>
+                        <th class="day-header">Terça</th>
+                        <th class="day-header">Quarta</th>
+                        <th class="day-header">Quinta</th>
+                        <th class="day-header">Sexta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-header">07:30 - 08:20</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="1"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="1"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="1"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="1"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="1"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">08:20 - 09:10</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="2"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="2"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="2"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="2"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="2"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">09:10 - 10:00</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="3"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="3"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="3"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="3"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="3"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">10:15 - 11:05</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="4"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="4"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="4"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="4"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="4"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:05 - 11:55</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="5"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="5"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="5"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="5"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="5"></select></td>
+                    </tr>
+                    <tr>
+                        <td class="time-header">11:55 - 12:45</td>
+                        <td><select class="subject" data-space="chromebook" data-day="seg" data-time="6"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="ter" data-time="6"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qua" data-time="6"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="qui" data-time="6"></select></td>
+                        <td><select class="subject" data-space="chromebook" data-day="sex" data-time="6"></select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="summary">
+            <div class="summary-title">Resumo de Aulas por Disciplina/Turma</div>
+            <button id="update-summary">Atualizar Resumo</button>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Disciplina/Turma</th>
+                        <th>Biblioteca</th>
+                        <th>Laboratório</th>
+                        <th>Chromebook</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="summary-body">
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="daily-view">
+            <div class="daily-view-title">Visualização Diária do Horário</div>
+            <div class="view-options">
+                <button id="view-space" class="active">Visualizar por Espaço</button>
+                <button id="view-day">Visualizar por Dia</button>
+            </div>
+            
+            <div id="space-view">
+                <div class="space-daily" id="library-daily">
+                    <h3>Biblioteca - Horário Diário</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Segunda</th>
+                                <th class="day-header">Terça</th>
+                                <th class="day-header">Quarta</th>
+                                <th class="day-header">Quinta</th>
+                                <th class="day-header">Sexta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="space-daily" id="lab-daily">
+                    <h3>Laboratório - Horário Diário</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Segunda</th>
+                                <th class="day-header">Terça</th>
+                                <th class="day-header">Quarta</th>
+                                <th class="day-header">Quinta</th>
+                                <th class="day-header">Sexta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="space-daily" id="chromebook-daily">
+                    <h3>Chromebook - Horário Diário</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Segunda</th>
+                                <th class="day-header">Terça</th>
+                                <th class="day-header">Quarta</th>
+                                <th class="day-header">Quinta</th>
+                                <th class="day-header">Sexta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="day-view" class="hidden">
+                <div class="day-schedule" id="seg-schedule">
+                    <h3>Segunda-feira - Todos os Espaços</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Biblioteca</th>
+                                <th class="day-header">Laboratório</th>
+                                <th class="day-header">Chromebook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="day-schedule" id="ter-schedule">
+                    <h3>Terça-feira - Todos os Espaços</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Biblioteca</th>
+                                <th class="day-header">Laboratório</th>
+                                <th class="day-header">Chromebook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="day-schedule" id="qua-schedule">
+                    <h3>Quarta-feira - Todos os Espaços</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Biblioteca</th>
+                                <th class="day-header">Laboratório</th>
+                                <th class="day-header">Chromebook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="day-schedule" id="qui-schedule">
+                    <h3>Quinta-feira - Todos os Espaços</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Biblioteca</th>
+                                <th class="day-header">Laboratório</th>
+                                <th class="day-header">Chromebook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="day-schedule" id="sex-schedule">
+                    <h3>Sexta-feira - Todos os Espaços</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="time-header">Horário</th>
+                                <th class="day-header">Biblioteca</th>
+                                <th class="day-header">Laboratório</th>
+                                <th class="day-header">Chromebook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="import-export">
+            <div class="import-export-title">Importar/Exportar Horários</div>
+            <div class="button-group">
+                <button id="export-btn">Exportar Horários</button>
+                <button id="import-btn">Importar Horários</button>
+                <input type="file" id="import-file" accept=".json">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dados das disciplinas (extraídos do CSV fornecido)
+            const subjectsData = [
+                {disciplina: "ADM.FIN.OR", professor: "Bernadete", turma: "2ºADM"},
+                {disciplina: "ANA.PROJ", professor: "Igor", turma: "3ºDES"},
+                {disciplina: "ARTE", professor: "Emanuele", turma: "1ºA"},
+                {disciplina: "ARTE", professor: "Emanuele", turma: "9ºA"},
+                {disciplina: "ARTE", professor: "Emanuele", turma: "9ºB"},
+                {disciplina: "ARTE", professor: "Emanuele", turma: "9ºC"},
+                {disciplina: "ARTE", professor: "Liziane", turma: "1ºA-ADM"},
+                {disciplina: "ARTE", professor: "Michelle A", turma: "1ºC-FOR.D"},
+                {disciplina: "ARTE", professor: "Emanuele", turma: "1ºB-DES"},
+                {disciplina: "ARTE I", professor: "Liziane", turma: "2ºA"},
+                {disciplina: "ARTE II", professor: "Emanuele", turma: "3ºA"},
+                {disciplina: "BAN.DADOS", professor: "Fabiana", turma: "3ºDES"},
+                {disciplina: "BIO", professor: "Fabiana", turma: "1ºA-ADM"},
+                {disciplina: "BIO", professor: "Fabiana", turma: "2ºADM"},
+                {disciplina: "BIO", professor: "Michele Net", turma: "1ºA"},
+                {disciplina: "BIO", professor: "Michele Net", turma: "1ºB-DES"},
+                {disciplina: "BIO", professor: "Michele Net", turma: "1ºC-FOR.D"},
+                {disciplina: "BIO", professor: "Michele Net", turma: "2ºA"},
+                {disciplina: "BIO", professor: "Michele Net", turma: "2ºB"},
+                {disciplina: "BIOLOGIA I", professor: "Michele Net", turma: "2ºB"},
+                {disciplina: "BIOLOGIA II", professor: "Michele Net", turma: "3ºB"},
+                {disciplina: "CIE.DADOS", professor: "Igor", turma: "3ºDES"},
+                {disciplina: "CIEN", professor: "Michele Net", turma: "9ºA"},
+                {disciplina: "CIEN", professor: "Michele Net", turma: "9ºB"},
+                {disciplina: "CIEN", professor: "Michele Net", turma: "9ºC"},
+                {disciplina: "COMP.GRAF", professor: "Igor", turma: "3ºDES"},
+                {disciplina: "COMU.VEND", professor: "Bernadete", turma: "1ºA-ADM"},
+                {disciplina: "CONTR.FIN", professor: "Bernadete", turma: "2ºADM"},
+                {disciplina: "DES.HUM S.E.", professor: "Leonor", turma: "1ºC-FOR.D"},
+                {disciplina: "ED.FIN.", professor: "Bernadete", turma: "3ºDES"},
+                {disciplina: "ED.FIN.", professor: "Maicon", turma: "1ºB-DES"},
+                {disciplina: "ED.FIN.", professor: "Maicon", turma: "3ºB"},
+                {disciplina: "ED.FIN.", professor: "Marcelo", turma: "1ºA"},
+                {disciplina: "ED.FIN.", professor: "Marcelo", turma: "1ºA-ADM"},
+                {disciplina: "ED.FIN.", professor: "Marcelo", turma: "1ºC-FOR.D"},
+                {disciplina: "ED.FIN.", professor: "Marcelo", turma: "2ºADM"},
+                {disciplina: "ED.FIN.", professor: "Marcelo", turma: "3ºA"},
+                {disciplina: "ED.FIN.", professor: "Renan", turma: "2ºA"},
+                {disciplina: "ED.FIN.", professor: "Renan", turma: "2ºB"},
+                {disciplina: "ED.FIS", professor: "Edson", turma: "9ºA"},
+                {disciplina: "ED.FIS", professor: "Jesse", turma: "1ºC-FOR.D"},
+                {disciplina: "ED.FIS", professor: "Jesse", turma: "3ºA"},
+                {disciplina: "ED.FIS", professor: "Jesse", turma: "9ºB"},
+                {disciplina: "ED.FIS", professor: "Jesse", turma: "9ºC"},
+                {disciplina: "ED.FIS", professor: "João", turma: "1ºA"},
+                {disciplina: "ED.FIS", professor: "João", turma: "3ºDES"},
+                {disciplina: "ED.FIS", professor: "Sem prof Ed fisica", turma: "1ºA-ADM"},
+                {disciplina: "ED.FIS", professor: "Sem prof Ed fisica", turma: "1ºB-DES"},
+                {disciplina: "ED.FIS", professor: "Sem prof Ed fisica", turma: "3ºB"},
+                {disciplina: "ED.FIS I", professor: "Sem prof Ed fisica", turma: "2ºA"},
+                {disciplina: "FIL", professor: "Marcos", turma: "1ºA"},
+                {disciplina: "FIL", professor: "Marcos", turma: "1ºA-ADM"},
+                {disciplina: "FIL", professor: "Marcos", turma: "1ºB-DES"},
+                {disciplina: "FIL", professor: "Marcos", turma: "1ºC-FOR.D"},
+                {disciplina: "FIL I", professor: "Marcos", turma: "2ºA"},
+                {disciplina: "FISICA", professor: "Ataide", turma: "1ºA-ADM"},
+                {disciplina: "FISICA", professor: "Ataide", turma: "1ºB-DES"},
+                {disciplina: "FISICA", professor: "Ataide", turma: "1ºC-FOR.D"},
+                {disciplina: "FISICA", professor: "Marcelo", turma: "1ºA"},
+                {disciplina: "FISICA", professor: "Marcelo", turma: "3ºA"},
+                {disciplina: "FISICA", professor: "Marcelo", turma: "3ºB"},
+                {disciplina: "FISICA", professor: "Marcelo", turma: "3ºDES"},
+                {disciplina: "FISICA II", professor: "Ataide", turma: "3ºB"},
+                {disciplina: "FISICA III", professor: "Eric", turma: "3ºB"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "1ºA"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "1ºA-ADM"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "1ºB-DES"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "2ºA"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "2ºADM"},
+                {disciplina: "GEO", professor: "Maria Clara", turma: "9ºA"},
+                {disciplina: "GEO", professor: "Ricardo", turma: "1ºC-FOR.D"},
+                {disciplina: "GEO", professor: "Ricardo", turma: "2ºB"},
+                {disciplina: "GEO", professor: "Ricardo", turma: "9ºB"},
+                {disciplina: "GEO", professor: "Ricardo", turma: "9ºC"},
+                {disciplina: "GEOG I", professor: "Maria Clara", turma: "3ºA"},
+                {disciplina: "HIST", professor: "Bruna", turma: "2ºA"},
+                {disciplina: "HIST", professor: "Bruna", turma: "2ºB"},
+                {disciplina: "HIST", professor: "Eric", turma: "1ºA"},
+                {disciplina: "HIST", professor: "Londres", turma: "1ºA-ADM"},
+                {disciplina: "HIST", professor: "Londres", turma: "1ºB-DES"},
+                {disciplina: "HIST", professor: "Londres", turma: "1ºC-FOR.D"},
+                {disciplina: "HIST", professor: "Londres", turma: "2ºADM"},
+                {disciplina: "HIST", professor: "Londres", turma: "9ºA"},
+                {disciplina: "HIST", professor: "Londres", turma: "9ºB"},
+                {disciplina: "HIST", professor: "Londres", turma: "9ºC"},
+                {disciplina: "HIST I", professor: "Londres", turma: "3ºA"},
+                {disciplina: "ING.I", professor: "Claudia", turma: "3ºA"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "1ºA"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "1ºA-ADM"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "1ºC-FOR.D"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "2ºA"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "2ºADM"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "2ºB"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "9ºA"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "9ºB"},
+                {disciplina: "INGLES", professor: "Claudia", turma: "9ºC"},
+                {disciplina: "INGLES", professor: "Sid", turma: "1ºB-DES"},
+                {disciplina: "INT. MARK", professor: "Renan", turma: "2ºADM"},
+                {disciplina: "INT.COMP", professor: "Fabiana", turma: "1ºB-DES"},
+                {disciplina: "INT.PROG", professor: "Fabiana", turma: "1ºB-DES"},
+                {disciplina: "LIVRE", professor:"Agende", turma:"."},
+                {disciplina: "LOG.COMP", professor: "Fabiana", turma: "1ºB-DES"},
+                {disciplina: "MAT", professor: "Caio", turma: "3ºA"},
+                {disciplina: "MAT", professor: "Caio", turma: "3ºB"},
+                {disciplina: "MAT", professor: "Caio", turma: "9ºA"},
+                {disciplina: "MAT", professor: "Caio", turma: "9ºB"},
+                {disciplina: "MAT", professor: "Caio", turma: "9ºC"},
+                {disciplina: "MAT", professor: "Viviane", turma: "1ºA"},
+                {disciplina: "MAT", professor: "Viviane", turma: "1ºA-ADM"},
+                {disciplina: "MAT", professor: "Viviane", turma: "1ºB-DES"},
+                {disciplina: "MAT", professor: "Roseli Ortiz", turma: "2ºA"},
+                {disciplina: "MAT", professor: "Roseli Ortiz", turma: "2ºADM"},
+                {disciplina: "MAT", professor: "Roseli Ortiz", turma: "2ºB"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"3°A"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"9°B"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"1°C-FOR.D"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"3°DES"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"3°B"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"2°ADM"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"2°A"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"2°B"},
+                {disciplina: "MAT", professor: "Rosely Caetano",turma:"9°A"},
+                {disciplina: "MAT", professor: "Viviane", turma: "1ºC-FOR.D"},
+                {disciplina: "MAT", professor: "Viviane", turma: "3ºDES"},
+                {disciplina: "MAT I RES.PROB", professor: "Viviane", turma: "2ºB"},
+                {disciplina: "MAT II", professor: "Igor", turma: "2ºB"},
+                {disciplina: "MAT II", professor: "Igor", turma: "3ºB"},
+                {disciplina: "NEG.VEND", professor: "Bernadete", turma: "2ºADM"},
+                {disciplina: "O.T.P", professor: "Jesse", turma: "1ºC-FOR.D"},
+                {disciplina: "PEN.COMP.", professor: "Renan", turma: "1ºA"},
+                {disciplina: "PJ.VIDA", professor: "Bruna", turma: "1ºA-ADM"},
+                {disciplina: "PJ.VIDA", professor: "Bruna", turma: "1ºB-DES"},
+                {disciplina: "PJ.VIDA", professor: "Bruna", turma: "3ºB"},
+                {disciplina: "PJ.VIDA", professor: "Eric", turma: "2ºADM"},
+                {disciplina: "PJ.VIDA", professor: "Marcos", turma: "1ºA"},
+                {disciplina: "PJ.VIDA", professor: "Marcos", turma: "2ºA"},
+                {disciplina: "PJ.VIDA", professor: "Marcos", turma: "2ºB"},
+                {disciplina: "PJ.VIDA", professor: "Marcos", turma: "3ºA"},
+                {disciplina: "PJ.VIDA", professor: "Ricardo", turma: "1ºC-FOR.D"},
+                {disciplina:"PMA", professor:"Rosely Caetano", turma:"."},
+                {disciplina: "PORT", professor: "Fer.Port", turma: "1ºA"},
+                {disciplina: "PORT", professor: "Fer.Port", turma: "2ºA"},
+                {disciplina: "PORT", professor: "Fer.Port", turma: "2ºADM"},
+                {disciplina: "PORT", professor: "Fer.Port", turma: "2ºB"},
+                {disciplina: "PORT", professor: "Izabel", turma: "1ºA-ADM"},
+                {disciplina: "PORT", professor: "Izabel", turma: "1ºB-DES"},
+                {disciplina: "PORT", professor: "Marcia Fran", turma: "1ºC-FOR.D"},
+                {disciplina: "PORT", professor: "Marcia Fran", turma: "3ºA"},
+                {disciplina: "PORT", professor: "Marcia Fran", turma: "3ºB"},
+                {disciplina: "PORT", professor: "Marcia Fran", turma: "3ºDES"},
+                {disciplina: "PORT", professor: "Sid", turma: "9ºA"},
+                {disciplina: "PORT", professor: "Sid", turma: "9ºB"},
+                {disciplina: "PORT", professor: "Sid", turma: "9ºC"},
+                {disciplina: "PORT.1", professor: "Liziane", turma: "2ºA"},
+                {disciplina: "PRIC. ADM", professor: "Bernadete", turma: "1ºA-ADM"},
+                {disciplina: "PROG.BACK-END", professor: "Fabiana", turma: "3ºDES"},
+                {disciplina: "PROG.DES", professor: "Fabiana", turma: "3ºDES"},
+                {disciplina: "PROG.MOB", professor: "Fabiana", turma: "3ºDES"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "1ºA"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "1ºA-ADM"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "1ºB-DES"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "1ºC-FOR.D"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "2ºA"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "2ºADM"},
+                {disciplina: "QUIMICA", professor: "Marcela", turma: "2ºB"},
+                {disciplina: "QUIMICA I", professor: "Marcela", turma: "3ºB"},
+                {disciplina: "RA.MAT", professor: "Caio", turma: "9ºC"},
+                {disciplina: "RA.MAT", professor: "Rosely Caetano", turma: "3ºA"},
+                {disciplina: "RA.MAT", professor: "Rosely Caetano", turma: "3ºB"},
+                {disciplina: "RA.MAT", professor: "Rosely Caetano", turma: "9ºA"},
+                {disciplina: "RA.MAT", professor: "Rosely Caetano", turma: "9ºB"},
+                {disciplina: "RA.PORT", professor: "Marcia Fran", turma: "3ºA"},
+                {disciplina: "RA.PORT", professor: "Marcia Fran", turma: "3ºB"},
+                {disciplina: "RA.PORT", professor: "Sid", turma: "9ºA"},
+                {disciplina: "RA.PORT", professor: "Sid", turma: "9ºB"},
+                {disciplina: "RA.PORT", professor: "Sid", turma: "9ºC"},
+                {disciplina: "RE. HUM", professor: "Bernadete", turma: "2ºADM"},
+                {disciplina: "SOC", professor: "Bruna", turma: "2ºA"},
+                {disciplina: "SOC", professor: "Bruna", turma: "2ºADM"},
+                {disciplina: "SOC", professor: "Bruna", turma: "2ºB"},
+                {disciplina: "SOC I", professor: "Bruna", turma: "3ºA"},
+                {disciplina: "T.P.I", professor: "Leonor", turma: "1ºC-FOR.D"}
+            ];
+
+            // Criar opções para os selects
+            function populateSelects() {
+                const selects = document.querySelectorAll('.subject');
+                
+                selects.forEach(select => {
+                    // Limpar opções existentes
+                    select.innerHTML = '';
+                    
+                    // Adicionar opção vazia
+                    const emptyOption = document.createElement('option');
+                    emptyOption.value = '';
+                    emptyOption.textContent = 'Selecione...';
+                    emptyOption.className = 'empty-option';
+                    select.appendChild(emptyOption);
+                    
+                    // Adicionar opções das disciplinas
+                    subjectsData.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = `${item.disciplina} - ${item.turma} (${item.professor})`;
+                        option.textContent = `${item.disciplina} - ${item.turma} (${item.professor})`;
+                        select.appendChild(option);
+                    });
+                });
+            }
+
+            // Função para atualizar o resumo
+            function updateSummary() {
+                const subjects = {};
+                
+                // Coletar todos os dados dos selects
+                document.querySelectorAll('.subject').forEach(select => {
+                    const subject = select.value.trim();
+                    
+                    if (subject) {
+                        const space = select.getAttribute('data-space');
+                        
+                        if (!subjects[subject]) {
+                            subjects[subject] = {
+                                library: 0,
+                                lab: 0,
+                                chromebook: 0,
+                                total: 0
+                            };
+                        }
+                        
+                        subjects[subject][space]++;
+                        subjects[subject].total++;
+                    }
+                });
+                
+                // Ordenar disciplinas alfabeticamente
+                const sortedSubjects = Object.keys(subjects).sort();
+                
+                // Atualizar a tabela de resumo
+                const summaryBody = document.getElementById('summary-body');
+                summaryBody.innerHTML = '';
+                
+                if (sortedSubjects.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="5" style="text-align: center;">Nenhuma disciplina/turma cadastrada ainda</td>';
+                    summaryBody.appendChild(row);
+                } else {
+                    sortedSubjects.forEach(subject => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${subject}</td>
+                            <td>${subjects[subject].library}</td>
+                            <td>${subjects[subject].lab}</td>
+                            <td>${subjects[subject].chromebook}</td>
+                            <td>${subjects[subject].total}</td>
+                        `;
+                        summaryBody.appendChild(row);
+                    });
+                }
+            }
+            
+            // Função para atualizar a visualização diária
+            function updateDailyView() {
+                // Atualizar visualização por espaço
+                updateSpaceDailyView('library');
+                updateSpaceDailyView('lab');
+                updateSpaceDailyView('chromebook');
+                
+                // Atualizar visualização por dia
+                updateDaySchedule('seg');
+                updateDaySchedule('ter');
+                updateDaySchedule('qua');
+                updateDaySchedule('qui');
+                updateDaySchedule('sex');
+            }
+            
+            // Atualizar visualização diária por espaço
+            function updateSpaceDailyView(space) {
+                const tableBody = document.querySelector(`#${space}-daily tbody`);
+                tableBody.innerHTML = '';
+                
+                // Horários fixos
+                const times = [
+                    '07:30 - 08:20',
+                    '08:20 - 09:10',
+                    '09:10 - 10:00',
+                    '10:15 - 11:05',
+                    '11:05 - 11:55',
+                    '11:55 - 12:45'
+                ];
+                
+                times.forEach((time, index) => {
+                    const row = document.createElement('tr');
+                    const timeCell = document.createElement('td');
+                    timeCell.className = 'time-header';
+                    timeCell.textContent = time;
+                    row.appendChild(timeCell);
+                    
+                    // Dias da semana
+                    const days = ['seg', 'ter', 'qua', 'qui', 'sex'];
+                    days.forEach(day => {
+                        const select = document.querySelector(`select[data-space="${space}"][data-day="${day}"][data-time="${index + 1}"]`);
+                        const cell = document.createElement('td');
+                        cell.className = 'subject-cell';
+                        cell.textContent = select.value || '-';
+                        row.appendChild(cell);
+                    });
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Atualizar visualização diária por dia da semana
+            function updateDaySchedule(day) {
+                const tableBody = document.querySelector(`#${day}-schedule tbody`);
+                tableBody.innerHTML = '';
+                
+                // Horários fixos
+                const times = [
+                    '07:30 - 08:20',
+                    '08:20 - 09:10',
+                    '09:10 - 10:00',
+                    '10:15 - 11:05',
+                    '11:05 - 11:55',
+                    '11:55 - 12:45'
+                ];
+                
+                times.forEach((time, index) => {
+                    const row = document.createElement('tr');
+                    const timeCell = document.createElement('td');
+                    timeCell.className = 'time-header';
+                    timeCell.textContent = time;
+                    row.appendChild(timeCell);
+                    
+                    // Espaços
+                    const spaces = ['library', 'lab', 'chromebook'];
+                    spaces.forEach(space => {
+                        const select = document.querySelector(`select[data-space="${space}"][data-day="${day}"][data-time="${index + 1}"]`);
+                        const cell = document.createElement('td');
+                        cell.className = 'subject-cell';
+                        cell.textContent = select.value || '-';
+                        row.appendChild(cell);
+                    });
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Função para exportar os horários para um arquivo JSON
+            function exportSchedules() {
+                const schedules = {};
+                
+                document.querySelectorAll('.subject').forEach(select => {
+                    const space = select.getAttribute('data-space');
+                    const day = select.getAttribute('data-day');
+                    const time = select.getAttribute('data-time');
+                    const value = select.value;
+                    
+                    if (!schedules[space]) schedules[space] = {};
+                    if (!schedules[space][day]) schedules[space][day] = {};
+                    
+                    schedules[space][day][time] = value;
+                });
+                
+                const dataStr = JSON.stringify(schedules, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = 'horarios_escolares.json';
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            }
+            
+            // Função para importar horários de um arquivo JSON
+            function importSchedules(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const schedules = JSON.parse(e.target.result);
+                        
+                        for (const space in schedules) {
+                            for (const day in schedules[space]) {
+                                for (const time in schedules[space][day]) {
+                                    const select = document.querySelector(`select[data-space="${space}"][data-day="${day}"][data-time="${time}"]`);
+                                    if (select) {
+                                        select.value = schedules[space][day][time];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        updateSummary();
+                        updateDailyView();
+                        alert('Horários importados com sucesso!');
+                    } catch (error) {
+                        alert('Erro ao importar arquivo: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            }
+            
+            // Alternar entre visualizações
+            document.getElementById('view-space').addEventListener('click', function() {
+                document.getElementById('space-view').classList.remove('hidden');
+                document.getElementById('day-view').classList.add('hidden');
+                this.classList.add('active');
+                document.getElementById('view-day').classList.remove('active');
+            });
+            
+            document.getElementById('view-day').addEventListener('click', function() {
+                document.getElementById('space-view').classList.add('hidden');
+                document.getElementById('day-view').classList.remove('hidden');
+                this.classList.add('active');
+                document.getElementById('view-space').classList.remove('active');
+            });
+            
+            // Event listeners para importar/exportar
+            document.getElementById('export-btn').addEventListener('click', exportSchedules);
+            
+            document.getElementById('import-btn').addEventListener('click', function() {
+                document.getElementById('import-file').click();
+            });
+            
+            document.getElementById('import-file').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    importSchedules(file);
+                }
+                // Limpa o input para permitir importar o mesmo arquivo novamente
+                e.target.value = '';
+            });
+            
+            // Inicializar os selects
+            populateSelects();
+            
+            // Atualizar o resumo quando o botão for clicado
+            document.getElementById('update-summary').addEventListener('click', function() {
+                updateSummary();
+                updateDailyView();
+            });
+            
+            // Atualizar o resumo e visualização quando qualquer select for alterado
+            document.querySelectorAll('.subject').forEach(select => {
+                select.addEventListener('change', function() {
+                    updateSummary();
+                    updateDailyView();
+                });
+            });
+            
+            // Atualizar tudo inicialmente
+            updateSummary();
+            updateDailyView();
+        });
+    </script>
+</body>
+</html>
